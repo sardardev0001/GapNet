@@ -1,0 +1,54 @@
+name: GapNet CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  repository:
+    name: Repository hygiene
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify source package
+        run: python scripts/check_repo.py
+
+  backend:
+    name: Django tests
+    runs-on: ubuntu-latest
+    env:
+      DEBUG: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Python dependencies
+        run: pip install -r backend/requirements.txt
+      - name: Django system checks
+        run: python backend/manage.py check
+      - name: Migration consistency
+        run: python backend/manage.py makemigrations --check --dry-run
+      - name: Run backend tests
+        run: python backend/manage.py test chat.tests -v 2
+
+  frontend:
+    name: TypeScript and Vite build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install UI dependencies
+        run: npm install --prefix frontend --no-audit --no-fund
+      - name: TypeScript and production bundle
+        run: npm run build --prefix frontend

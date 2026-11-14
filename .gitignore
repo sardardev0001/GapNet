@@ -1,0 +1,49 @@
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+.venv/
+venv/
+backend/db.sqlite3
+backend/db.sqlite3-*
+backend/media/
+backend/staticfiles/
+
+# JS / build outputs
+node_modules/
+frontend/dist/
+desktop/dist/
+desktop/release/
+dist/
+build/
+coverage/
+*.tsbuildinfo
+
+# OS / IDE / logs
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.bak
+
+# Local distributions / archives
+*.rar
+*.7z
+*.zip

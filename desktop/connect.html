@@ -1,0 +1,10 @@
+<!doctype html><html lang="fa" dir="rtl"><head><meta charset="UTF-8"/><title>اتصال گپ‌نت</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f8fafa;color:#102235;font:15px Tahoma,'Segoe UI',sans-serif;display:grid;place-items:center;height:100vh}.card{width:min(470px,95%);border:1px solid #ccdae6;background:white;border-radius:24px;padding:37px;box-shadow:0 12px 30px #4682a512;text-align:right}h1{margin:0 0 15px;font-size:25px}p{color:#74889e;line-height:2}label{display:block;font-weight:600;margin:20px 0 10px}input{height:49px;width:100%;border:1px solid #ccdae6;border-radius:12px;padding:0 15px;font:14px Tahoma;direction:ltr;color:#102235;background:#f9fcfe}button{border:0;border-radius:12px;background:#53a6e8;color:white;font-weight:800;font:600 15px Tahoma;padding:15px;width:100%;margin-top:15px;cursor:pointer}#error{font-size:12px;color:#bb3346;line-height:1.8}.top{color:#3295e3;font-weight:700;font-size:15px;margin-bottom:14px}
+</style></head><body><div class="card"><div class="top">● GapNet</div><h1>اتصال به سرور گپ‌نت</h1><p>آدرس سرور گپ‌نت را وارد کنید. این پنجره مستقیماً رابط کاربری میزبان را باز می‌کند.</p><label for="server">آدرس سرور</label><input id="server" type="url" placeholder="http://127.0.0.1:8084"/><button id="connect">اتصال و ذخیره</button><p id="error"></p></div>
+<script>
+const field=document.querySelector('#server'), err=document.querySelector('#error'), btn=document.querySelector('#connect');
+window.gapnetDesktop?.getServerUrl().then(url=>{field.value=url||'http://127.0.0.1:8084'});
+btn.addEventListener('click',async()=>{btn.disabled=true;err.textContent='';try{await window.gapnetDesktop.saveServerUrl(field.value)}catch(e){err.textContent=String(e?.message||e)}finally{btn.disabled=false}});
+window.gapnetDesktop?.onConnectionError(url=>{err.textContent='اتصال به '+url+' برقرار نشد؛ ابتدا سرور را اجرا کنید.'});
+</script></body></html>

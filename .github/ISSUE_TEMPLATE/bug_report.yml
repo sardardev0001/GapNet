@@ -1,0 +1,39 @@
+name: Bug report
+description: Report a reproducible issue in GapNet
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: "Please do not include passwords, JWTs, or private chat content."
+  - type: input
+    id: summary
+    attributes:
+      label: Summary
+      placeholder: "Describe what failed"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      placeholder: "1. ... 2. ... 3. ..."
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Expected vs. actual behavior
+    validations:
+      required: true
+  - type: dropdown
+    id: platform
+    attributes:
+      label: Platform
+      options: [Windows Electron, Windows browser, Linux browser, Mobile browser, Docker backend, Other]
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Sanitized logs and screenshots
+      description: Remove all secrets and personal data before posting.

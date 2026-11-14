@@ -1,0 +1,25 @@
+name: Feature request
+description: Suggest an improvement to GapNet
+labels: [enhancement]
+body:
+  - type: input
+    id: summary
+    attributes:
+      label: Feature summary
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: User problem
+      description: What problem would this feature solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered

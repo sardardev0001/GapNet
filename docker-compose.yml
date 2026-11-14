@@ -1,0 +1,48 @@
+name: gapnet
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-gapnet}
+      POSTGRES_USER: ${POSTGRES_USER:-gapnet}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes: [postgres_data:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes: [redis_data:/data]
+  backend:
+    build: {context: ./backend}
+    restart: unless-stopped
+    environment:
+      DEBUG: "0"
+      DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY:?Set DJANGO_SECRET_KEY in .env}
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS:-localhost,127.0.0.1,backend}
+      POSTGRES_HOST: db
+      POSTGRES_DB: ${POSTGRES_DB:-gapnet}
+      POSTGRES_USER: ${POSTGRES_USER:-gapnet}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      REDIS_URL: redis://redis:6379/1
+      SECURE_COOKIES: "0"
+    depends_on:
+      db: {condition: service_healthy}
+      redis: {condition: service_started}
+    volumes: [static_data:/app/staticfiles, media_data:/app/media]
+  web:
+    build: {context: ., dockerfile: Dockerfile.web}
+    restart: unless-stopped
+    depends_on: [backend]
+    ports: ["${GAPNET_PORT:-8084}:80"]
+    volumes: [static_data:/staticfiles:ro]
+volumes:
+  postgres_data:
+  redis_data:
+  static_data:
+  media_data:

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="185" height="22" viewBox="0 0 185 22" role="img" aria-label="Status: Development">
+ <rect width="185" height="22" fill="#f59e0b"/>
+ <rect width="82" height="22" fill="#555"/>
+ <g transform="translate(4 1) scale(.85)"><circle cx="11" cy="10" r="6" fill="#fff"/></g>
+ <text x="74" y="15.2" font-family="DejaVu Sans, Arial, sans-serif" text-anchor="end" font-size="12" fill="#fff">Status</text>
+ <text x="133.5" y="15.2" font-family="DejaVu Sans, Arial, sans-serif" text-anchor="middle" font-size="12" fill="#fff">Development</text>
+</svg>
